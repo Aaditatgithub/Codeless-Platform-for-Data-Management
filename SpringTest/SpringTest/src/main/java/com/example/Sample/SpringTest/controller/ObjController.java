@@ -116,21 +116,28 @@ public class ObjController {
 
 
     @GetMapping("/evaluate/{templateName}/{expressionName}")
-    public String evaluateExpression(@PathVariable String expressionName, @PathVariable String templateName) {
+    public List<String> evaluateExpression(@PathVariable String expressionName, @PathVariable String templateName) {
     	Template template = templateService.findByTemplateName(templateName);
     	MDM_Expressions obj = template.findExpressionByName(expressionName);
     	String expString = obj.getExpressionString();
-    	
+    	List<String> result = new ArrayList<>();
+        System.out.println(template.getTemplate_name());
     	String[] words = expString.split("\\s+");
     	List<String> usedTemplates = new ArrayList<>();
     	List<List<Object>> objectList = new ArrayList<>();
     	for(String word : words) {
+            System.out.println(word);
     		if (word.matches("[a-zA-Z\\.]+")) {
     			int dotIndex = word.indexOf('.');
     			String usedTemplate = word.substring(0, dotIndex);
+                System.out.println(usedTemplate);
     			if(!usedTemplates.contains(usedTemplate)) {
     				usedTemplates.add(usedTemplate);
+                    System.out.println("-------------------used template -------");
+                    System.out.println("used template");
     				List<Object> objects = oservice.getAllObjectsForTemplate(usedTemplate);
+                    System.out.println("====================================");
+
     				objectList.add(objects);   
     			}
     		}
@@ -140,8 +147,8 @@ public class ObjController {
     		for(int j = 0; j < objectList.size(); j++) {
     			hashMap.put(usedTemplates.get(j),objectList.get(j).get(i));   		
     		}
-    		obj.replaceVarsInExpressionString(hashMap, templateService).evaluate();
+    		result.add(obj.replaceVarsInExpressionString(hashMap, templateService).evaluate());
     	}
-    	return null;
+    	return result;
     }
 }
