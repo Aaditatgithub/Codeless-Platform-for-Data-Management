@@ -7,8 +7,11 @@
 4. Objects corresponding to a template will be accepted and sent to backend
 
 ### Analytics Service
-1. You can perform aggregate function related and logical operation on the objects of template you wish to work upon
+1. You can perform aggregate function related and logical operation on the objects of template you wish to work upon.
 
 ### Expression Creation
 1. This page will allow you to modify the existing templates and their corresponding objects by adding custom expressions by leveraging the existing attributes and expresssions present inside multiple templates in the DB.
 2. This shall open doors for comparing performances of different entities in analytics.
+
+### Payroll Check
+1. We tried to ensure the variety of data that could be managed. Apart from automating payroll processing for employees, we also have performed realtime Induction motor analysis. 
