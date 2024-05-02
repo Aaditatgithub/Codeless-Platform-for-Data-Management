@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getAllTemplates } from '../api/TemplateApiServices';
 import { payrollCheck } from '../api/PayrollCheck';
+import { FaCheck, FaTimes } from 'react-icons/fa'; // Import FontAwesome icons
 
 const MotorAnalysisComponent = () => {
   const [templates, setTemplates] = useState([]);
@@ -9,6 +10,7 @@ const MotorAnalysisComponent = () => {
   const [expressionList, setExpressionList] = useState([]);
   const [result, setResult] = useState([]);
   const [showResult, setShowResult] = useState(false);
+  const [isScrolling, setIsScrolling] = useState(false);
 
   useEffect(() => {
     // Fetch template names from backend
@@ -53,17 +55,25 @@ const MotorAnalysisComponent = () => {
           setShowResult(true); // Show the result
         }
       )
-      .catch(error => {
-        console.error('Error evaluating payroll check:', error);
-      });
   };
 
   const handleCloseResult = () => {
     setShowResult(false);
   };
 
+  const handleScroll = () => {
+    // Set isScrolling to true when scrolling starts
+    setIsScrolling(true);
+
+    // Clear isScrolling after scrolling stops (after 100ms)
+    clearTimeout(scrollTimeout);
+    const scrollTimeout = setTimeout(() => {
+      setIsScrolling(false);
+    }, 100);
+  };
+
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-200 bg-opacity-50 backdrop-filter backdrop-blur-lg">
+    <div className="flex justify-center items-center h-screen bg-gray-200 bg-opacity-50 backdrop-filter backdrop-blur-lg" onScroll={handleScroll}>
       <form className="flex flex-col items-center p-10 bg-white rounded-lg shadow-lg">
         <h2 className="text-3xl font-bold mb-6">Motor Analysis</h2>
         <select
@@ -102,7 +112,7 @@ const MotorAnalysisComponent = () => {
 
         {/* Conditionally render the result */}
         {showResult && (
-          <div className="overflow-auto mt-8">
+          <div className={`overflow-auto mt-8 ${isScrolling ? 'scrolling' : ''}`} style={{ maxHeight: '300px', overflowY: 'auto' }}>
             <table className="table-auto border-collapse border border-gray-400 w-full">
               <thead>
                 <tr className="bg-gray-200">
@@ -124,7 +134,6 @@ const MotorAnalysisComponent = () => {
             <button onClick={handleCloseResult} className="block mx-auto mt-4 px-6 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none text-lg">Close</button>
           </div>
         )}
-
       </form>
     </div>
   );
