@@ -32,6 +32,11 @@ const Sidebar = () => {
         </Link>
       </div>
       <div className="mb-4"> {/* Increased margin-bottom */}
+        <Link to="/motor-analysis" className="flex items-center hover:bg-gray-700 hover:shadow-lg transition-colors duration-200 rounded-lg">
+          <BiAnalyse  size={35} title="MotorAnalysis" /> {/* Increase the size of the icon */}
+        </Link>
+      </div>
+      <div className="mb-4"> {/* Increased margin-bottom */}
         <Link to="/operations" className="flex items-center hover:bg-gray-700 hover:shadow-lg transition-colors duration-200 rounded-lg">
           <BiAnalyse  size={35} title="Operations" /> {/* Increase the size of the icon */}
         </Link>
