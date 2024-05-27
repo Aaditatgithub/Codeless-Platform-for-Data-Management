@@ -10,3 +10,6 @@ export const submitExpressionForAttributeAttachment =
 
 export const submitExpressionForTemplateAttachment = 
     (templateName, expJson) => apiClient.put(`/template/attachTemplateExpression/${templateName}`, expJson)
+
+export const expressionEvaluation = 
+    (templateName,expressionName) =>  apiClient.get(`/evaluate/${templateName}/${expressionName}`)

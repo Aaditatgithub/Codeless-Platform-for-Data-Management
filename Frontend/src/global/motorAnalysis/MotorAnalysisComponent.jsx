@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { getAllTemplates } from '../api/TemplateApiServices';
 import { payrollCheck } from '../api/PayrollCheck';
-import { FaCheck, FaTimes } from 'react-icons/fa'; // Import FontAwesome icons
+
 
 const MotorAnalysisComponent = () => {
   const [templates, setTemplates] = useState([]);
@@ -13,12 +13,11 @@ const MotorAnalysisComponent = () => {
   const [isScrolling, setIsScrolling] = useState(false);
 
   useEffect(() => {
-    // Fetch template names from backend
     getAllTemplates()
-      .then(response => {
+     .then(response => {
         setTemplates(response.data);
       })
-      .catch(error => {
+     .catch(error => {
         console.error('Error fetching templates:', error);
       });
   }, []);
@@ -27,17 +26,15 @@ const MotorAnalysisComponent = () => {
     const templateName = event.target.value;
     setSelectedTemplate(templateName);
 
-    // Find the selected template
     const selectedTemplate = templates.find(template => template.template_name === templateName);
 
-    // Extract expression list from the selected template
     if (selectedTemplate) {
       setExpressionList(selectedTemplate.expressionList);
     } else {
       setExpressionList([]);
     }
 
-    setSelectedExpression(''); // Reset selected expression when template changes
+    setSelectedExpression('');
   };
 
   const handleExpressionChange = (event) => {
@@ -45,16 +42,12 @@ const MotorAnalysisComponent = () => {
   };
 
   const handleEvaluateClick = () => {
-    // Perform evaluation logic here
     payrollCheck(selectedTemplate, selectedExpression)
-      .then(
-        (response) => {
-          // Split result strings at full stops
-          const resultArray = response.data.map(item => item.split('|'));
-          setResult(resultArray); // Store the result
-          setShowResult(true); // Show the result
-        }
-      )
+     .then(response => {
+        const resultArray = response.data.map(item => item.split('|'));
+        setResult(resultArray);
+        setShowResult(true);
+      });
   };
 
   const handleCloseResult = () => {
@@ -62,10 +55,7 @@ const MotorAnalysisComponent = () => {
   };
 
   const handleScroll = () => {
-    // Set isScrolling to true when scrolling starts
     setIsScrolling(true);
-
-    // Clear isScrolling after scrolling stops (after 100ms)
     clearTimeout(scrollTimeout);
     const scrollTimeout = setTimeout(() => {
       setIsScrolling(false);
@@ -74,7 +64,7 @@ const MotorAnalysisComponent = () => {
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-200 bg-opacity-50 backdrop-filter backdrop-blur-lg" onScroll={handleScroll}>
-      <form className="flex flex-col items-center p-10 bg-white rounded-lg shadow-lg">
+      <div className="flex flex-col items-center p-10 bg-white rounded-lg shadow-lg w-1/2">
         <h2 className="text-3xl font-bold mb-6">Motor Analysis</h2>
         <select
           value={selectedTemplate}
@@ -87,7 +77,6 @@ const MotorAnalysisComponent = () => {
           ))}
         </select>
 
-        {/* Render expression dropdown only if a template is selected */}
         {selectedTemplate && (
           <select
             value={selectedExpression}
@@ -105,14 +94,13 @@ const MotorAnalysisComponent = () => {
           type="button"
           onClick={handleEvaluateClick}
           className="px-6 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none text-lg"
-          disabled={!selectedExpression} // Disable button if no expression is selected
+          disabled={!selectedExpression}
         >
           Evaluate
         </button>
 
-        {/* Conditionally render the result */}
         {showResult && (
-          <div className={`overflow-auto mt-8 ${isScrolling ? 'scrolling' : ''}`} style={{ maxHeight: '300px', overflowY: 'auto' }}>
+          <div className={`overflow-auto mt-8 ${isScrolling? 'scrolling' : ''}`} style={{ maxHeight: '300px', overflowY: 'auto' }}>
             <table className="table-auto border-collapse border border-gray-400 w-full">
               <thead>
                 <tr className="bg-gray-200">
@@ -123,10 +111,10 @@ const MotorAnalysisComponent = () => {
               </thead>
               <tbody>
                 {result.map((itemArray, index) => (
-                  <tr key={index} className={index % 2 === 0 ? "bg-white" : "bg-gray-100"}>
+                  <tr key={index} className={index % 2 === 0? "bg-white" : "bg-gray-100"}>
                     <td className="px-4 py-2 border border-gray-400">{itemArray[0]}</td>
                     <td className="px-4 py-2 border border-gray-400">{itemArray[1]}</td>
-                    <td className={`px-4 py-2 border border-gray-400 ${itemArray[2] === 'true' ? 'font-bold text-green-500' : 'text-red-500'}`}>{itemArray[2]}</td>
+                    <td className={`px-4 py-2 border border-gray-400 ${itemArray[2] === 'true'? 'font-bold text-green-500' : 'text-red-500'}`}>{itemArray[2]}</td>
                   </tr>
                 ))}
               </tbody>
@@ -134,9 +122,29 @@ const MotorAnalysisComponent = () => {
             <button onClick={handleCloseResult} className="block mx-auto mt-4 px-6 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none text-lg">Close</button>
           </div>
         )}
-      </form>
+      </div>
+      {/* <div className="flex flex-col items-center p-10 bg-white rounded-lg shadow-lg w-1/2">
+        <ChartComponent data={result} />
+      </div> */}
     </div>
   );
 };
+
+// const ChartComponent = ({ data }) => {
+//   const chartRef = useRef(null);
+
+//   useEffect(() => {
+//     if (chartRef.current) {
+//       const chartInstance = chartRef.current.chartInstance;
+//       chartInstance.update();
+//     }
+//   }, [data]);
+
+//   return (
+//     <div ref={chartRef}>
+//       <Bar data={data} options={{ maintainAspectRatio: false }} />
+//     </div>
+//   );
+// };
 
 export default MotorAnalysisComponent;
