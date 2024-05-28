@@ -13,3 +13,12 @@ export const submitExpressionForTemplateAttachment =
 
 export const expressionEvaluation = 
     (templateName,expressionName) =>  apiClient.get(`/evaluate/${templateName}/${expressionName}`)
+
+export const updateTemplateNameApi = (oldName, newTemplateName) => 
+    apiClient.put(`/template/${oldName}/${newTemplateName}`);
+
+export const updateAttributeForTemplateApi = (tempName, oldAttributeName, newAttributeName, newAttributeType) => 
+    apiClient.put(`/attributes/${tempName}/${oldAttributeName}/${newAttributeName}/${newAttributeType}`);
+
+export const deleteTemplateApi = (templateName) => 
+    apiClient.delete(`/delete/template/${templateName}`);
