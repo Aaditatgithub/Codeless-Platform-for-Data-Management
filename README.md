@@ -1,19 +1,6 @@
-
-<p align="left">
-  <img src="https://img.icons8.com/external-tal-revivo-filled-tal-revivo/96/external-markdown-a-lightweight-markup-language-with-plain-text-formatting-syntax-logo-filled-tal-revivo.png" width="100" />
-</p>
 <p align="left">
     <h1 align="left">CODELESS-PLATFORM-FOR-DATA-MANAGEMENT</h1>
 </p>
-<p align="left">
-    <em>HTTP error 429 for prompt `slogan`</em>
-</p>
-<p align="left">
-	<img src="https://img.shields.io/github/license/Aaditatgithub/Codeless-Platform-for-Data-Management?style=flat&color=0080ff" alt="license">
-	<img src="https://img.shields.io/github/last-commit/Aaditatgithub/Codeless-Platform-for-Data-Management?style=flat&logo=git&logoColor=white&color=0080ff" alt="last-commit">
-	<img src="https://img.shields.io/github/languages/top/Aaditatgithub/Codeless-Platform-for-Data-Management?style=flat&color=0080ff" alt="repo-top-language">
-	<img src="https://img.shields.io/github/languages/count/Aaditatgithub/Codeless-Platform-for-Data-Management?style=flat&color=0080ff" alt="repo-language-count">
-<p>
 <p align="left">
 		<em>Developed with the software and tools below.</em>
 </p>
